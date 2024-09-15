@@ -1,0 +1,67 @@
+workflows:
+  android-workflow-id:
+    name: React Native Android # workflow name
+    triggering:
+      events:
+        - push # name of the trigger
+    max_build_duration: 120 # maximum build duration
+    instance_type: mac_mini_m1 # instance type
+    environment:
+      groups:
+        - android-secrets # name of environment group create in codemagic dashbord
+      android_signing:
+        - releaseKestoreName.keystore # your release keystore name
+      xcode: 13.3.1 # your version of Xcode
+      cocoapods: 1.11.2 # your version of cocoapods
+      node: 16.15.0 # your node version
+      npm: 8.5.5 # your npm version
+      ruby: 2.7.2 # your ruby version (make sure it is the same like in your project's .ruby-version file)
+    scripts:
+      - name: Set Android SDK location
+        script: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/android/local.properties"
+      - name: Install dependencies
+        script: |
+          yarn install
+      - name: Install Ruby and Dependencies
+        script: |
+          bundle install
+      - name: Clean gradlew
+        script: |
+          cd android && ./gradlew clean
+      - name: Fastlane Build Android release
+        script: |
+          bundle exec fastlane android build_and_playmarket --env prod
+    artifacts:
+      - android/app/build/outputs/**/*.aab # artifacts path
+
+  ios-workflow-id:
+    name: iOS Sample Workflow # workflow name
+    triggering:
+      events:
+        - push # name of the trigger
+    max_build_duration: 120 # maximum build duration
+    instance_type: mac_mini_m1 # instance type
+    environment:
+      groups:
+        - IOS-secrets # name of environment group, created in codemagic dashbord
+        - module_credentials # name of enviroment group, created to be able to access IOS certificates repository
+      xcode: 13.3.1 # your version of Xcode
+      cocoapods: 1.11.2 # your version of cocoapods
+      node: 16.15.0 # your node version
+      npm: 8.5.5 # your npm version
+      ruby: 2.7.2 # your ruby version (make sure it is the same like in your project's .ruby-version file)
+    scripts:
+      - name: Install dependencies
+        script: |
+          yarn install
+      - name: Install Ruby and Dependencies
+        script: |
+          bundle install
+      - name: Create main.jsbundle
+        script: |
+          yarn build:ios # script from package.json for creating main.jsbundle file
+      - name: Fastlane Build IOS release
+        script: |
+          bundle exec fastlane ios build_and_testflight --env prod
+
