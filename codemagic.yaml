@@ -8,6 +8,10 @@ workflows:
         instance_type: mac_mini_m2
         environment:
           ios_signing:
+            provisioning_profiles:
+              - provisionprofile
+            certificates:
+              - IPhoneFede
             distribution_type: development
             bundle_identifier: org.reactjs.native.example.Tapp3XApp
           vars:
