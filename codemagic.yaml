@@ -10,7 +10,7 @@ workflows:
           app_store_connect: codemagic
         environment:
           ios_signing:
-            distribution_type: developer
+            distribution_type: development
             bundle_identifier: org.reactjs.native.example.Tapp3XApp
           vars:
             XCODE_WORKSPACE: "Tapp3XApp.xcworkspace" # <-- Put the name of your Xcode workspace here
