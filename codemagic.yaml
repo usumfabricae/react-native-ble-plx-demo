@@ -37,6 +37,13 @@ workflows:
                 agvtool new-version -all $(($LATEST_BUILD_NUMBER + 1))
             - name: Build ipa for distribution
               script: |
+                # Decode and install the distribution certificate
+                echo "$APPLE_DIST_CERT_BASE64" | base64 --decode > /tmp/dist.p12
+                security import /tmp/dist.p12 -P "$APPLE_CERT_PASSWORD" -A
+                # Decode and install the provisioning profile
+                echo "$APPLE_PROV_PROFILE_BASE64" | base64 --decode > /tmp/profile.mobileprovision
+                mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+                cp /tmp/profile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles                
                 xcode-project build-ipa \
                   --workspace "$CM_BUILD_DIR/ios/$XCODE_WORKSPACE" \
                   --scheme "$XCODE_SCHEME"
