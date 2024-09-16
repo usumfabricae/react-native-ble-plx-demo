@@ -36,7 +36,7 @@ workflows:
                 LATEST_BUILD_NUMBER=$(app-store-connect get-latest-testflight-build-number "$APP_ID")
                 agvtool new-version -all $(($LATEST_BUILD_NUMBER + 1))
             - name: Set up code signing settings on Xcode project
-              script: xcode-project use-profiles                
+              script: xcode-project use-profiles --code-signing-setup-verbose-logging             
             - name: Build ipa for distribution
               script: |
                 echo "/Library/MobileDevice/Provisioning\ Profiles"
