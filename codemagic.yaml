@@ -38,6 +38,8 @@ workflows:
             - name: Import certificate
               script: |
                 keychain initialize
+                echo "~/Library/MobileDevice/Certificates"
+                ls -la ~/Library/MobileDevice/Certificates
                 keychain add-certificates --certificate ~/Library/MobileDevice/Certificates/code_signing_certificate_*.pk12 --certificate-password federico
             - name: Set up code signing settings on Xcode project
               script: xcode-project use-profiles --code-signing-setup-verbose-logging             
