@@ -35,6 +35,10 @@ workflows:
                 cd $CM_BUILD_DIR/ios
                 LATEST_BUILD_NUMBER=$(app-store-connect get-latest-testflight-build-number "$APP_ID")
                 agvtool new-version -all $(($LATEST_BUILD_NUMBER + 1))
+            - name: Import certificate
+              script: |
+                keychain initialize
+                keychain add-certificates --certificate ~/Library/MobileDevice/Certificates/code_signing_certificate_*.pk12 --certificate-password federico
             - name: Set up code signing settings on Xcode project
               script: xcode-project use-profiles --code-signing-setup-verbose-logging             
             - name: Build ipa for distribution
