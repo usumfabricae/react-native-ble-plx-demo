@@ -49,7 +49,9 @@ workflows:
                 ls -la ~/Library/MobileDevice/Certificates
                 echo "/Users/builder/Library/MobileDevice/Provisioning Profiles"
                 ls -la "/Users/builder/Library/MobileDevice/Provisioning Profiles"
-                
+                echo $CM_CERTIFICATE
+                echo $INSTALLER_CERTIFICATE 
+                echo $INSTALLER_CERTIFICATE_PASSWORD
                 xcode-project build-ipa \
                   --workspace "$CM_BUILD_DIR/ios/$XCODE_WORKSPACE" \
                   --scheme "$XCODE_SCHEME"
