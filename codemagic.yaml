@@ -26,6 +26,10 @@ workflows:
             - name: Install CocoaPods dependencies
               script: |
                 cd ios && pod install
+            - name: Set  PRODUCT_BUNDLE_IDENTIFIER  
+              script: |
+                /usr/bin/plutil -replace CFBundleIdentifier -string org.reactjs.native.example.Tapp3XApp ios/Tapp3XApp/Info.plist
+                find **/*.xcodeproj -type f | xargs sed -i "" -E 's/PRODUCT_BUNDLE_IDENTIFIER = ".+";//g'
             - name: Set up code signing settings on Xcode project
               script: |
                 xcode-project use-profiles --warn-only --project ios/*.xcodeproj
