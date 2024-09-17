@@ -35,6 +35,11 @@ workflows:
                 cd $CM_BUILD_DIR/ios
                 LATEST_BUILD_NUMBER=$(app-store-connect get-latest-testflight-build-number "$APP_ID")
                 agvtool new-version -all $(($LATEST_BUILD_NUMBER + 1))
+            - name: Print Build configuration
+              script: |
+                xcode-project show-build-settings \
+                  --workspace "$CM_BUILD_DIR/ios/$XCODE_WORKSPACE" \
+                  --scheme "$XCODE_SCHEME"  
             - name: Build ipa for distribution
               script: |
                 xcode-project build-ipa \
