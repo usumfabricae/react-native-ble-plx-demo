@@ -28,7 +28,7 @@ workflows:
                 cd ios && pod install
             - name: Set up code signing settings on Xcode project
               script: |
-                xcode-project use-profiles --warn-only --code-signing-setup-verbose-logging 
+                xcode-project use-profiles --warn-only 
             - name: Increment build number
               script: |
                 # Information about getting the latest build version can be found here: https://docs.codemagic.io/knowledge-codemagic/build-versioning/#app-store-or-testflight-latest-build-number
