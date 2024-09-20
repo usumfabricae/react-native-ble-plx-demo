@@ -9,9 +9,9 @@ workflows:
         environment:
           ios_signing:
             provisioning_profiles:
-              - provisionprofile
+              - provisioning-profile-Tapp3XApp
             certificates:
-              - IPhoneFede
+              - IPhone
           vars:
             XCODE_WORKSPACE: "Tapp3XApp.xcworkspace" # <-- Put the name of your Xcode workspace here
             XCODE_SCHEME: "Tapp3XApp" # <-- Put the name of your Xcode scheme here
